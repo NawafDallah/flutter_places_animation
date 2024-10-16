@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 
 import 'models/travel_place_model.dart';
@@ -26,6 +25,7 @@ class DetailsPlacePage extends StatefulWidget {
 class _DetailsPlacePageState extends State<DetailsPlacePage> {
   late final ScrollController _scrollController;
   late final ValueNotifier<double> _valueNotifier;
+  late final ValueNotifier<bool> _isAnimatingScroll;
 
   void _onListen() {
     double newValue = _scrollController.offset / widget.height;
@@ -36,25 +36,34 @@ class _DetailsPlacePageState extends State<DetailsPlacePage> {
     double percent = _scrollController.offset / widget.height;
     if (!_scrollController.position.isScrollingNotifier.value) {
       if (percent < 0.3 && percent > 0.1) {
-        _scrollController.animateTo(
-          widget.height * 0.4,
-          duration: const Duration(milliseconds: 150),
-          curve: Curves.decelerate,
-        );
+        _isAnimatingScroll.value = true;
+        _scrollController
+            .animateTo(
+              widget.height * 0.4,
+              duration: const Duration(milliseconds: 150),
+              curve: Curves.decelerate,
+            )
+            .then((_) => _isAnimatingScroll.value = false);
       }
       if (percent < 0.1 && percent > 0.0) {
-        _scrollController.animateTo(
-          0.0,
-          duration: const Duration(milliseconds: 150),
-          curve: Curves.decelerate,
-        );
+        _isAnimatingScroll.value = true;
+        _scrollController
+            .animateTo(
+              0.0,
+              duration: const Duration(milliseconds: 150),
+              curve: Curves.decelerate,
+            )
+            .then((_) => _isAnimatingScroll.value = false);
       }
       if (percent < 0.5 && percent > 0.3) {
-        _scrollController.animateTo(
-          widget.height * 0.4,
-          duration: const Duration(milliseconds: 150),
-          curve: Curves.decelerate,
-        );
+        _isAnimatingScroll.value = true;
+        _scrollController
+            .animateTo(
+              widget.height * 0.4,
+              duration: const Duration(milliseconds: 150),
+              curve: Curves.decelerate,
+            )
+            .then((_) => _isAnimatingScroll.value = false);
       }
     }
   }
@@ -62,6 +71,7 @@ class _DetailsPlacePageState extends State<DetailsPlacePage> {
   @override
   void initState() {
     _valueNotifier = ValueNotifier<double>(0.0);
+    _isAnimatingScroll = ValueNotifier(false);
     _scrollController = ScrollController(
       initialScrollOffset: widget.height * 0.4,
     )..addListener(_onListen);
@@ -86,79 +96,87 @@ class _DetailsPlacePageState extends State<DetailsPlacePage> {
     return Scaffold(
       body: Stack(
         children: [
-          CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            controller: _scrollController,
-            slivers: [
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: BuilderSliverDelegate(
-                  maxExtent: hieght,
-                  minExtent: hieght / 3,
-                  builder: (percent) {
-                    return AnimatedHeaderDetails(
-                      place: widget.place,
-                      bottomPercent: (percent / 0.5).clamp(0.0, 1.0),
-                      topPercent: (1 - (percent / 0.7)).clamp(0.0, 1.0),
-                    );
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(
-                  child: TranslationAnimation(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.location_on, color: Colors.black26),
-                          Flexible(
-                            child: Text(
-                              widget.place.locationDescription,
-                              maxLines: 1,
-                              overflow: TextOverflow.fade,
-                              style: GoogleFonts.aBeeZee(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue,
-                                textStyle:
-                                    Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Text(widget.place.description),
-                      const SizedBox(height: 10),
-                      Text(widget.place.description),
-                      const SizedBox(height: 10),
-                      Text(widget.place.description),
-                      const SizedBox(height: 10),
-                      Text(widget.place.description),
-                      const SizedBox(height: 30),
-                      Text(
-                        "PLACE IN THIS COLLICTION",
-                        style: GoogleFonts.aBeeZee(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                          textStyle: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                    ],
+          ValueListenableBuilder(
+            valueListenable: _isAnimatingScroll,
+            builder: (_, value, child) => AbsorbPointer(
+              absorbing: value,
+              child: child,
+            ),
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: _scrollController,
+              slivers: [
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: BuilderSliverDelegate(
+                    maxExtent: hieght,
+                    minExtent: hieght / 3,
+                    builder: (percent) {
+                      return AnimatedHeaderDetails(
+                        place: widget.place,
+                        bottomPercent: (percent / 0.5).clamp(0.0, 1.0),
+                        topPercent: (1 - (percent / 0.7)).clamp(0.0, 1.0),
+                      );
+                    },
                   ),
                 ),
-              )),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 180,
-                  child: CollectionPlaces(widget: widget),
+                SliverToBoxAdapter(
+                    child: TranslationAnimation(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.location_on,
+                                color: Colors.black26),
+                            Flexible(
+                              child: Text(
+                                widget.place.locationDescription,
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                                style: GoogleFonts.aBeeZee(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue,
+                                  textStyle:
+                                      Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Text(widget.place.description),
+                        const SizedBox(height: 10),
+                        Text(widget.place.description),
+                        const SizedBox(height: 10),
+                        Text(widget.place.description),
+                        const SizedBox(height: 10),
+                        Text(widget.place.description),
+                        const SizedBox(height: 30),
+                        Text(
+                          "PLACE IN THIS COLLICTION",
+                          style: GoogleFonts.aBeeZee(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                            textStyle: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                      ],
+                    ),
+                  ),
+                )),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 180,
+                    child: CollectionPlaces(widget: widget),
+                  ),
                 ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 150.0))
-            ],
+                const SliverToBoxAdapter(child: SizedBox(height: 150.0))
+              ],
+            ),
           ),
           ValueListenableBuilder(
             valueListenable: _valueNotifier,

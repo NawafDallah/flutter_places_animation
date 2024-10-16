@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'travel_app_animation/home_feed.dart';
+import 'main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter animation',
         themeMode: ThemeMode.system,
-        home: MyHomePage(),
+        home: MainPage(),
       ),
     );
   }
