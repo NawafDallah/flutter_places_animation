@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 
+import '../core/responsive.dart';
 import 'data/album_model.dart';
 import 'widget/animated_header_album.dart';
 
 const _maxHeightImageAlbum = 160.0;
 const _minHeightImageAlbum = 60;
 
+const _maxHeightImageAlbumTablet = 220.0;
+const _minHeightImageAlbumTablet = 60;
+
 const _maxArtistName = 30.0;
 const _minArtistName = 18.0;
 
+const _maxArtistNameTablet = 42.0;
+const _minArtistNameTablet = 24.0;
+
 const _maxAlbumName = 18.0;
 const _minAlbumName = 12.0;
+
+const _maxAlbumNameTablet = 24.0;
+const _minAlbumNameTablet = 16.0;
 
 class AlbumDetails extends StatefulWidget {
   const AlbumDetails({super.key});
@@ -97,27 +107,61 @@ class _AlbumDetailsState extends State<AlbumDetails> {
                   final albumNamePercent = (_maxAlbumName * (1 - percent))
                       .clamp(_minAlbumName, _maxAlbumName)
                       .toDouble();
+                  final imageTabletPercent =
+                      (_maxHeightImageAlbumTablet * (1 - percent))
+                          .clamp(_minHeightImageAlbumTablet,
+                              _maxHeightImageAlbumTablet)
+                          .toDouble();
+                  final artistNamePercentTablet =
+                      (_maxArtistNameTablet * (1 - percent))
+                          .clamp(_minArtistNameTablet, _maxArtistNameTablet)
+                          .toDouble();
+                  final albumNamePercentTablet =
+                      (_maxAlbumNameTablet * (1 - percent))
+                          .clamp(_minAlbumNameTablet, _maxAlbumNameTablet)
+                          .toDouble();
                   return AnimatedHeaderAlbum(
                     imagePercent: imagePercent,
                     size: size,
                     artistNamePercent: artistNamePercent,
                     albumNamePercent: albumNamePercent,
                     percent: percent,
+                    imageTabletPercent: imageTabletPercent,
+                    artistNamePercentTablet: artistNamePercentTablet,
+                    albumNamePercentTablet: albumNamePercentTablet,
                   );
                 },
               ),
               pinned: true,
             ),
-            SliverFillRemaining(
-              child: Container(
-                margin: const EdgeInsets.all(20.0),
-                child: Text(
-                  AlbumModel.currentAlbum.description,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    wordSpacing: 1.5,
-                  ),
+            SliverToBoxAdapter(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(20.0),
+                      child: Text(
+                        AlbumModel.currentAlbum.description,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                          wordSpacing: 1.5,
+                        ),
+                      ),
+                    ),
+                    if (Responsive.isTablet(context))
+                      Container(
+                        margin: const EdgeInsets.all(20.0),
+                        child: Text(
+                          AlbumModel.currentAlbum.description,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            wordSpacing: 1.5,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
