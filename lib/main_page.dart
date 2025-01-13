@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'album_anaimation/album_details.dart';
+import 'animal_animation/main_page_animal_app.dart';
 import 'travel_app_animation/home_feed.dart';
 
 class MainPage extends StatelessWidget {
@@ -29,17 +30,27 @@ class MainPage extends StatelessWidget {
                     builder: (context) => const MyHomePage(),
                   ),
                 ),
-                child: const _MyButton('Travil place page'),
+                child: const _MyButton('Travil place'),
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                  onTap: () => Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => const AlbumDetails(),
-                        ),
-                      ),
-                  child: const _MyButton('Album page'))
+                onTap: () => Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => const AlbumDetails(),
+                  ),
+                ),
+                child: const _MyButton('Album app'),
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const MainPageAnimal(),
+                    )),
+                child: const _MyButton('Animal app'),
+              ),
             ],
           ),
         ),
