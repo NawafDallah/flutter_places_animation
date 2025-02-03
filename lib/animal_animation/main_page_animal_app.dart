@@ -59,7 +59,9 @@ class _MainPageAnimalState extends State<MainPageAnimal>
     final animationHeight = MediaQuery.sizeOf(context).height / 2;
     if (_animationController.isAnimating ||
         _animationController.status == AnimationStatus.completed ||
-        _pageController.page != 1.0) return;
+        _pageController.page != 1.0) {
+      return;
+    }
 
     final double flingVelocity =
         details.velocity.pixelsPerSecond.dy / animationHeight;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'album_anaimation/album_details.dart';
 import 'animal_animation/main_page_animal_app.dart';
+import 'coffee_animation/coffee_home.dart';
 import 'travel_app_animation/home_feed.dart';
 
 class MainPage extends StatelessWidget {
@@ -50,6 +51,15 @@ class MainPage extends StatelessWidget {
                       builder: (context) => const MainPageAnimal(),
                     )),
                 child: const _MyButton('Animal app'),
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const MainPageCoffee(),
+                    )),
+                child: const _MyButton('Coffee app'),
               ),
             ],
           ),

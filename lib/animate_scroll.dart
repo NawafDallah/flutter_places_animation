@@ -30,11 +30,7 @@ class _SnapScrollDemoState extends State<SnapScrollDemo> {
   }
 
   List<Snap> getSnaps() {
-    return [
-      Snap.avoidZone(0.0, 52.0),
-      Snap.avoidZone(52.0, 104.0),
-      Snap.avoidZone(200, 300),
-    ];
+    return [Snap.avoidZone(0.0, 52.0), Snap.avoidZone(52.0, 104.0)];
   }
 
   @override
@@ -48,32 +44,43 @@ class _SnapScrollDemoState extends State<SnapScrollDemo> {
           parent: const BouncingScrollPhysics(),
         ),
         slivers: [
-          CupertinoSliverNavigationBar(
-            largeTitle: const Text('Sittengs'),
-            stretch: true,
-            trailing: ValueListenableBuilder(
-              valueListenable: _scrollListener,
-              builder: (_, value, child) {
-                final double percent = value / 104.0;
-                double opacity = 0.0;
-                if (percent > 0.5) {
-                  opacity = percent.clamp(0.0, 1.0);
-                }
-                return AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: opacity,
-                  child: const Icon(
-                    CupertinoIcons.search,
-                    size: 24.0,
-                  ),
-                );
-              },
-            ),
-          ),
+          MyAppBar(scrollListener: _scrollListener),
           const SearchHeader(),
           const _MySlivers(),
           // header of the home page -->
         ],
+      ),
+    );
+  }
+}
+
+class MyAppBar extends StatelessWidget {
+  const MyAppBar({
+    super.key,
+    required ValueNotifier scrollListener,
+  }) : _scrollListener = scrollListener;
+
+  final ValueNotifier _scrollListener;
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoSliverNavigationBar(
+      largeTitle: const Text('Sittengs'),
+      stretch: true,
+      trailing: ValueListenableBuilder(
+        valueListenable: _scrollListener,
+        builder: (_, value, child) {
+          final double percent = value / 104;
+          return AnimatedOpacity(
+            duration: const Duration(milliseconds: 200),
+            opacity: percent >= 1.0 ? 1.0 : 0.0,
+            child: child,
+          );
+        },
+        child: const Icon(
+          CupertinoIcons.search,
+          size: 24.0,
+        ),
       ),
     );
   }
