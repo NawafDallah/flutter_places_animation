@@ -40,7 +40,6 @@ class _MainPageCoffeeState extends State<MainPageCoffee>
           children: [
             // the backgroind linear gradient
             const _GradientBackGround(),
-            // const _FirstCoffee(),
             const _SecondCoffee(),
             const _ThirdCoffee(),
             const _FourthCoffee(),
@@ -87,22 +86,6 @@ class _GradientBackGround extends StatelessWidget {
     );
   }
 }
-
-// class _FirstCoffee extends StatelessWidget {
-//   const _FirstCoffee();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final screenHeight = MediaQuery.sizeOf(context).height;
-//     return Positioned(
-//       top: screenHeight * 0.2,
-//       height: screenHeight * 0.35,
-//       left: 0.0,
-//       right: 0.0,
-//       child: Image.asset(CoffeeServices.coffees[0].image),
-//     );
-//   }
-// }
 
 class _SecondCoffee extends StatelessWidget {
   const _SecondCoffee();
@@ -192,7 +175,7 @@ class _CoffeeLoge extends StatelessWidget {
       left: 0.0,
       right: 0.0,
       bottom:
-          isSmallPhone || isTablet ? screenHeight * 0.235 : screenHeight * 0.19,
+          isSmallPhone || isTablet ? screenHeight * 0.22 : screenHeight * 0.19,
       height: screenHeight * 0.2,
       child: Image.asset("assets/images/coffee_images/logo.png"),
     );
@@ -234,7 +217,7 @@ class _AnimatiomShimmerArrow extends StatelessWidget {
           );
         },
         child: Transform.scale(
-          scale: isTablet ? 1.1 : 1.0,
+          scale: isTablet ? 1.05 : 1.0,
           child: const ShimmerArrow(),
         ),
       ),

@@ -45,12 +45,21 @@ class _CoffeeSmallSize extends AnimatedWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final animation = listenable as Animation<double>;
     return Positioned(
-      bottom: (screenHeight * 0.07) * animation.value,
+      bottom: (screenHeight * 0.07),
       left: screenWidth * 0.2,
       width: screenWidth * 0.15,
-      child: CoffeeSizeImage(
-        letterSize: 'S',
-        image: Image.asset("assets/images/coffee_images/taza_s.png"),
+      child: SlideTransition(
+        position: Tween(
+          begin: const Offset(-3.0, 3.0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(
+          parent: animation,
+          curve: Curves.ease,
+        )),
+        child: CoffeeSizeImage(
+          letterSize: 'S',
+          image: Image.asset("assets/images/coffee_images/taza_s.png"),
+        ),
       ),
     );
   }
@@ -66,12 +75,21 @@ class _CoffeeMediamSize extends AnimatedWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final animation = listenable as Animation<double>;
     return Positioned(
-      bottom: (screenHeight * 0.07) * animation.value,
+      bottom: (screenHeight * 0.07),
       left: screenWidth / 2 - (screenWidth * 0.15) / 2,
       width: screenWidth * 0.15,
-      child: CoffeeSizeImage(
-        letterSize: 'M',
-        image: Image.asset("assets/images/coffee_images/taza_m.png"),
+      child: SlideTransition(
+        position: Tween(
+          begin: const Offset(0.0, 3.0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(
+          parent: animation,
+          curve: Curves.ease,
+        )),
+        child: CoffeeSizeImage(
+          letterSize: 'M',
+          image: Image.asset("assets/images/coffee_images/taza_m.png"),
+        ),
       ),
     );
   }
@@ -87,12 +105,21 @@ class _CoffeeLargeSize extends AnimatedWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final animation = listenable as Animation<double>;
     return Positioned(
-      bottom: (screenHeight * 0.07) * animation.value,
+      bottom: (screenHeight * 0.07),
       right: screenWidth * 0.2,
       width: screenWidth * 0.15,
-      child: CoffeeSizeImage(
-        letterSize: 'L',
-        image: Image.asset("assets/images/coffee_images/taza_l.png"),
+      child: SlideTransition(
+        position: Tween(
+          begin: const Offset(3.0, 3.0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(
+          parent: animation,
+          curve: Curves.ease,
+        )),
+        child: CoffeeSizeImage(
+          letterSize: 'L',
+          image: Image.asset("assets/images/coffee_images/taza_l.png"),
+        ),
       ),
     );
   }
@@ -112,18 +139,27 @@ class _CoffeeDetailsPrice extends AnimatedWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final animation = listenable as Animation<double>;
     return Positioned(
-      left: (screenWidth * 0.1) * animation.value,
-      bottom: (screenHeight * 0.22) * animation.value,
+      left: (screenWidth * 0.1),
+      bottom: (screenHeight * 0.22),
       height: screenHeight * 0.12,
-      child: FittedBox(
-        child: Text(
-          "${coffee.price[CoffeeSize.mediam].toString()}SR",
-          softWrap: true,
-          style: GoogleFonts.mali(
-            fontSize: 28.0,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-            shadows: [const BoxShadow(blurRadius: 35.0)],
+      child: SlideTransition(
+        position: Tween(
+          begin: const Offset(-2.0, 3.0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(
+          parent: animation,
+          curve: Curves.ease,
+        )),
+        child: FittedBox(
+          child: Text(
+            "${coffee.price[CoffeeSize.mediam].toString()}SR",
+            softWrap: true,
+            style: GoogleFonts.mali(
+              fontSize: 28.0,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              shadows: [const BoxShadow(blurRadius: 35.0)],
+            ),
           ),
         ),
       ),

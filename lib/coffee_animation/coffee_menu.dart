@@ -228,7 +228,7 @@ class _CoffeesVerticalPageView extends StatelessWidget {
           final coffee = CoffeeServices.coffees[index - 1];
           return ValueListenableBuilder<double>(
             valueListenable: _pageListener,
-            builder: (context, value, child) {
+            builder: (_, value, child) {
               final percent = value - index;
               final animation = -0.4 * percent + 0.6;
               final fraction = animation.clamp(0.0, 1.0);
@@ -247,9 +247,9 @@ class _CoffeesVerticalPageView extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) =>
+                        (_, animation, __, child) =>
                             FadeTransition(opacity: animation, child: child),
-                    pageBuilder: (context, animation, secondaryAnimation) =>
+                    pageBuilder: (_, animation, __) =>
                         CoffeeDetailsPage(animtion: animation, coffee: coffee),
                   ),
                 );

@@ -13,7 +13,6 @@ class CoffeeSizeImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         image,
         const SizedBox(height: 8.0),

@@ -22,6 +22,7 @@ class MainPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
+            spacing: 20.0,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               GestureDetector(
@@ -33,7 +34,6 @@ class MainPage extends StatelessWidget {
                 ),
                 child: const _MyButton('Travil place'),
               ),
-              const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => Navigator.push(
                   context,
@@ -43,7 +43,6 @@ class MainPage extends StatelessWidget {
                 ),
                 child: const _MyButton('Album app'),
               ),
-              const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => Navigator.push(
                     context,
@@ -52,7 +51,6 @@ class MainPage extends StatelessWidget {
                     )),
                 child: const _MyButton('Animal app'),
               ),
-              const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => Navigator.push(
                     context,
